@@ -79,7 +79,6 @@ public class TodoController {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	ResponseEntity<?> add(@PathVariable Integer listId, @RequestBody Todo todo) {
-		TodoList tl = todoListService.
 		Todo newTodo = new Todo();
 		newTodo.setDescription(todo.getDescription());
 		todoService.updateTodo(newTodo);
