@@ -3,6 +3,7 @@
  */
 package com.todo.service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class TodoListServiceImpl implements TodoListService{
 	@Override
 	public Set<TodoList> findTodoListByUser(String login) {
 		User user = userService.findUserByLogin(login);
-		return todoListRepository.findTodoListByUsers(user);
+		return todoListRepository.findTodoListByUsersOrderByIdDesc(user);
 	}
 
 	/* (non-Javadoc)
@@ -38,7 +39,7 @@ public class TodoListServiceImpl implements TodoListService{
 	@Override
 	public Set<TodoList> findActivedTodoListByUsers(String login) {
 		User user = userService.findUserByLogin(login);
-		return todoListRepository.findTodoListByUsersAndArchived(user, false);
+		return todoListRepository.findTodoListByUsersAndArchivedOrderByIdDesc(user, false);
 	}
 
 	/* (non-Javadoc)
@@ -47,7 +48,6 @@ public class TodoListServiceImpl implements TodoListService{
 	@Override
 	public Set<TodoList> findArchivedTodoListByUsers(String login) {
 		User user = userService.findUserByLogin(login);
-		return todoListRepository.findTodoListByUsersAndArchived(user, true);
+		return todoListRepository.findTodoListByUsersAndArchivedOrderByIdDesc(user, true);
 	}
-
 }

@@ -3,10 +3,10 @@
  */
 package com.todo.service;
 
+import java.util.Optional;
 import java.util.Set;
 
 import com.todo.bean.TodoList;
-import com.todo.bean.User;
 
 /**
  * @author crenaudin

@@ -10,13 +10,24 @@ public class TodoServiceImpl implements TodoService {
 	TodoRepository todoRepository;
 
 	@Override
-	public Todo updateTodo(Todo todo) {
+	public Todo saveTodo(Todo todo) {
 		return todoRepository.save(todo);
 	}
 
 	@Override
 	public Todo findTodo(Integer id) {
 		return todoRepository.findOne(id);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.todo.service.TodoService#deleteTodo(java.lang.Integer)
+	 */
+	@Override
+	public void deleteTodo(Integer id) {
+		Todo todo = todoRepository.findOne(id);
+		if(todo!=null) {
+			todoRepository.delete(todo);
+		}
 	}
 
 }

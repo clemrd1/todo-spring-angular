@@ -73,18 +73,22 @@ public class TodoController {
 		Todo todoToUp = todoService.findTodo(id);
 		todoToUp.setDescription(todo.getDescription());
 		todoToUp.setCompleted(todo.isCompleted());
-		todoService.updateTodo(todoToUp);
+		todoService.saveTodo(todoToUp);
 		return new ResponseEntity<Todo>(todoToUp, HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	ResponseEntity<?> add(@PathVariable Integer listId, @RequestBody Todo todo) {
+	@RequestMapping(method = RequestMethod.POST, value = "/todos/{listId}")
+	ResponseEntity<?> addTodo(@PathVariable("listId") Integer listId, @RequestBody Todo todo) {
 		Todo newTodo = new Todo();
 		newTodo.setDescription(todo.getDescription());
-		todoService.updateTodo(newTodo);
+		todoService.saveTodo(newTodo);
 		return new ResponseEntity<Todo>(newTodo, HttpStatus.OK);
 	}
 	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/todo/{id}")
+	void delete(@PathVariable("id") Integer id) {
+		todoService.deleteTodo(id);
+	}
 	
 	
 	@GetMapping(path="/{login}/todos")
