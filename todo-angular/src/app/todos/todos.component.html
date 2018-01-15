@@ -1,0 +1,26 @@
+<div class="todo-app">
+	<mat-grid-list cols="3" rowHeight="400px">
+	  <mat-grid-tile *ngFor="let todoList of todoLists">
+	  <mat-card class="todo-list">
+	  	<mat-card-header>
+		    <mat-card-title>{{todoList.name}}</mat-card-title>
+	  	</mat-card-header>
+	  	<mat-card-content>
+	  		<mat-form-field>
+				<input matInput placeholder="Add todo" #todoToAdd value="" (blur)="addTodo(todoToAdd.value)" (keyup.enter)="addTodo(todoToAdd.value)">
+			</mat-form-field>
+	    	<ul class="todos">
+				<li *ngFor="let todo of todoList.todos" [class.editing]="todo.editing" [class.not-editing]="!todo.editing">
+					<div class="todo">
+						<label *ngIf="!todo.editing" (click)="editTodo(todo)">{{todo.description}}</label>
+					</div>
+					<mat-form-field class="todo-form" *ngIf="todo.editing">
+						<input class="todo-editing" matInput [(ngModel)]="todo.description" (blur)="saveTodo(todo)" (keyup.enter)="saveTodo(todo)">
+					</mat-form-field>
+				</li>
+			</ul>
+	  	</mat-card-content>
+	  </mat-card>
+	  </mat-grid-tile>
+	</mat-grid-list>
+</div>

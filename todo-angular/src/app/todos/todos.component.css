@@ -1,0 +1,39 @@
+mat-card {
+  width: calc(100% - 70px);
+  height: calc(100% - 70px);
+}
+
+li{
+	list-style:none;	
+}
+
+.todo{
+	height: 34px;
+}
+
+.todo-form {
+  width: 100%;
+  height: 34px;
+}
+
+.todo-editing	 {
+  width: 100%;
+}
+
+.todo-list ul {
+	padding: 0;
+    list-style-type: none;
+}
+
+.todo-list li.editing .todo {
+	display: none;
+}
+
+.todo-list li.not-editing .todo-form {
+	display: none;
+}
+
+.todo label{
+	width:100%;
+	display: block;
+}
