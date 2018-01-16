@@ -12,6 +12,7 @@ import {Location} from '@angular/common';
   styleUrls: ['./todos.component.css']
 })
 export class TodosComponent implements OnInit {
+
   @Input() todoLists: TodoList[];
 
   @Input() newTodo: Todo = new Todo();

@@ -14,7 +14,9 @@
 					<div class="todo">
 						<mat-checkbox [(ngModel)]="todo.completed" (change)="setCompleted(todo, todoList)" color="primary"></mat-checkbox>
 						<label *ngIf="!todo.editing" (click)="editTodo(todo)" [class.completed]="todo.completed">{{todo.description}}</label>
-		                <i class="material-icons delete" (click)="deleteTodo(todo, todoList)">clear</i>
+						<a>
+		                	<i class="material-icons delete" (click)="deleteTodo(todo, todoList)">clear</i>
+		                </a>
 					</div>
 					<mat-form-field class="todo-form" *ngIf="todo.editing">
 						<input class="todo-editing" matInput [(ngModel)]="todo.description" (blur)="saveTodo(todo)" (keyup.enter)="saveTodo(todo)">
