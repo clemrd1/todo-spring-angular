@@ -41,7 +41,9 @@ export class TodosComponent implements OnInit {
   }
 
   editTodo(todo: Todo) {
-    todo.editing = true;
+    if (!todo.completed) {
+      todo.editing = true;
+    }
   }
 
   saveTodo(todo: Todo) {
