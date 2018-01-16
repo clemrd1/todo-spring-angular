@@ -1,4 +1,5 @@
 package com.todo.controller;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -73,21 +74,35 @@ public class TodoController {
 		Todo todoToUp = todoService.findTodo(id);
 		todoToUp.setDescription(todo.getDescription());
 		todoToUp.setCompleted(todo.isCompleted());
+		if(todoToUp.isCompleted() && !todo.isCompleted()) {
+			todoToUp.setCompletedDate(null);
+		}else if(todo.isCompleted() && !todoToUp.isCompleted()) {
+			todoToUp.setCompletedDate(new Date());
+		}
 		todoService.saveTodo(todoToUp);
 		return new ResponseEntity<Todo>(todoToUp, HttpStatus.OK);
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/todos/{listId}")
+	public TodoList getTodoList(@PathVariable("listId") Integer listId) {
+		return todoListService.findTodoList(listId);
+	}
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/todos/{listId}")
 	ResponseEntity<?> addTodo(@PathVariable("listId") Integer listId, @RequestBody Todo todo) {
+		System.out.println("addTodo");
+		TodoList tl = todoListService.findTodoList(listId);
 		Todo newTodo = new Todo();
 		newTodo.setDescription(todo.getDescription());
+		newTodo.setTodoList(tl);
 		todoService.saveTodo(newTodo);
 		return new ResponseEntity<Todo>(newTodo, HttpStatus.OK);
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/todo/{id}")
-	void delete(@PathVariable("id") Integer id) {
+	boolean delete(@PathVariable("id") Integer id) {
 		todoService.deleteTodo(id);
+		return true;
 	}
 	
 	

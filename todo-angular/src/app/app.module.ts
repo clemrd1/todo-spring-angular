@@ -13,7 +13,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {UserDetailComponent} from './user-detail/user-detail.component';
 import {FormsModule} from '@angular/forms';
 import {TodosComponent} from './todos/todos.component';
-import {MatGridListModule, MatCardModule, MatButtonModule, MatInputModule} from '@angular/material';
+import {MatGridListModule, MatCardModule, MatButtonModule, MatInputModule, MatCheckboxModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -32,7 +32,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatCardModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule
   ],
   providers: [UserService, MessageService, TodoService],
   bootstrap: [AppComponent]

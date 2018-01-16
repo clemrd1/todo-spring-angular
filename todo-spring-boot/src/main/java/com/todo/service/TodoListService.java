@@ -18,4 +18,8 @@ public interface TodoListService {
 	Set<TodoList> findActivedTodoListByUsers(String login);
 	
 	Set<TodoList> findArchivedTodoListByUsers(String login);
+	
+	TodoList findTodoList(Integer id);
+	
+	TodoList updateTodoList(TodoList tl);
 }

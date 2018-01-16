@@ -46,7 +46,7 @@ public class TodoList {
     private Set<User> users = new HashSet<User>();
 	
 	@OneToMany(mappedBy = "todoList", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	@OrderBy("todoId desc")
+	@OrderBy("completed asc, todoId desc")
     private Set<Todo> todos = new HashSet<Todo>();
 
 	public Integer getListId() {

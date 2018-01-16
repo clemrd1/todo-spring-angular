@@ -9,6 +9,10 @@ li{
 
 .todo{
 	height: 34px;
+	line-height: 34px;
+	display: inline-block;
+	width:100%;
+	vertical-align: middle;
 }
 
 .todo-form {
@@ -29,11 +33,51 @@ li{
 	display: none;
 }
 
+.todo label.completed {
+	text-decoration: line-through;
+}
+
 .todo-list li.not-editing .todo-form {
 	display: none;
 }
 
 .todo label{
-	width:100%;
-	display: block;
+	width:calc(100% - 54px);
+	float: left;
+	margin-left: 10px
+}
+
+.todo mat-checkbox {
+	float: left;
+	vertical-align: middle;
+}
+
+.todo i{
+	flat: right;
+	vertical-align: middle;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }

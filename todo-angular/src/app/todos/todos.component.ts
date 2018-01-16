@@ -14,6 +14,12 @@ import {Location} from '@angular/common';
 export class TodosComponent implements OnInit {
   @Input() todoLists: TodoList[];
 
+  @Input() newTodo: Todo = new Todo();
+
+  @Input() refreshTl: TodoList = new TodoList();
+
+  newTodoDesc = '';
+
   constructor(
     private route: ActivatedRoute,
     private todoService: TodoService,
@@ -46,7 +52,37 @@ export class TodosComponent implements OnInit {
     this.todoService.updateTodo(todo).subscribe();
   }
 
-  addTodo(description: string) {
+  addTodo(todoList: TodoList) {
+    if (this.newTodoDesc.trim().length) {
+      this.newTodo.description = this.newTodoDesc;
+      this.todoService.addTodo(this.newTodo, todoList.listId).subscribe(
+        newTodo => this.newTodo = newTodo, () => console.log('Error'), () => this.refreshTodoList(todoList)
+      );
+      this.newTodoDesc = '';
+      this.newTodo = new Todo();
+    }
+  }
+
+  deleteTodo(delTodo: Todo, todoList: TodoList) {
+    this.todoService.deleteTodo(delTodo).subscribe();
+    todoList.todos = todoList.todos.filter(todo => delTodo.todoId !== todo.todoId);
+  }
+
+  setCompleted(todo: Todo, todoList: TodoList) {
+    console.log(todoList.listId);
+    this.todoService.updateTodo(todo).subscribe(
+      () => console.log('Completed'), () => console.log('Error'), () => this.refreshTodoList(todoList)
+    );
+  }
+
+  refreshTodoList(tl: TodoList) {
+    this.todoService.getTodoList(tl.listId).subscribe(
+      tlUp => {
+        let existingTl;
+        existingTl = this.todoLists.find(todoList => todoList.listId === tlUp.listId);
+        Object.assign(existingTl, tlUp);
+      }
+    );
 
   }
 

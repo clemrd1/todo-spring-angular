@@ -3,11 +3,15 @@ package com.todo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.todo.bean.Todo;
+import com.todo.bean.TodoList;
 import com.todo.dao.TodoRepository;
 
 public class TodoServiceImpl implements TodoService {
 	@Autowired
 	TodoRepository todoRepository;
+	
+	@Autowired
+	TodoListService todoListService;
 
 	@Override
 	public Todo saveTodo(Todo todo) {
@@ -24,8 +28,13 @@ public class TodoServiceImpl implements TodoService {
 	 */
 	@Override
 	public void deleteTodo(Integer id) {
+		System.out.println(id);
 		Todo todo = todoRepository.findOne(id);
 		if(todo!=null) {
+			TodoList tl = todo.getTodoList();
+			tl.getTodos().remove(todo);
+			todoListService.updateTodoList(tl);
+			System.out.println("todo not null");
 			todoRepository.delete(todo);
 		}
 	}

@@ -30,7 +30,7 @@ public class TodoListServiceImpl implements TodoListService{
 	@Override
 	public Set<TodoList> findTodoListByUser(String login) {
 		User user = userService.findUserByLogin(login);
-		return todoListRepository.findTodoListByUsersOrderByIdDesc(user);
+		return todoListRepository.findTodoListByUsersOrderByListIdDesc(user);
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +39,7 @@ public class TodoListServiceImpl implements TodoListService{
 	@Override
 	public Set<TodoList> findActivedTodoListByUsers(String login) {
 		User user = userService.findUserByLogin(login);
-		return todoListRepository.findTodoListByUsersAndArchivedOrderByIdDesc(user, false);
+		return todoListRepository.findTodoListByUsersAndArchivedOrderByListIdDesc(user, false);
 	}
 
 	/* (non-Javadoc)
@@ -48,6 +48,22 @@ public class TodoListServiceImpl implements TodoListService{
 	@Override
 	public Set<TodoList> findArchivedTodoListByUsers(String login) {
 		User user = userService.findUserByLogin(login);
-		return todoListRepository.findTodoListByUsersAndArchivedOrderByIdDesc(user, true);
+		return todoListRepository.findTodoListByUsersAndArchivedOrderByListIdDesc(user, true);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.todo.service.TodoListService#findTodoList(java.lang.Integer)
+	 */
+	@Override
+	public TodoList findTodoList(Integer id) {
+		return todoListRepository.findOne(id);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.todo.service.TodoListService#updateTodoList(com.todo.bean.TodoList)
+	 */
+	@Override
+	public TodoList updateTodoList(TodoList tl) {
+		return todoListRepository.save(tl);
 	}
 }
