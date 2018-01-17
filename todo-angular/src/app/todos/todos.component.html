@@ -1,5 +1,5 @@
 <div class="todo-app">
-	<mat-grid-list cols="3" rowHeight="400px">
+	<mat-grid-list cols="3" rowHeight="470px">
 	  <mat-grid-tile *ngFor="let todoList of todoLists">
 	  <mat-card class="todo-list">
 	  	<mat-card-header>
@@ -13,17 +13,21 @@
 				<li *ngFor="let todo of todoList.todos" [class.editing]="todo.editing" [class.not-editing]="!todo.editing">
 					<div class="todo">
 						<mat-checkbox [(ngModel)]="todo.completed" (change)="setCompleted(todo, todoList)" color="primary"></mat-checkbox>
-						<label *ngIf="!todo.editing" (click)="editTodo(todo)" [class.completed]="todo.completed">{{todo.description}}</label>
+						<label *ngIf="!todo.editing" (click)="editTodo(todo); setFocus()" [class.completed]="todo.completed">{{todo.description}}</label>
 						<a>
 		                	<i class="material-icons delete" (click)="deleteTodo(todo, todoList)">clear</i>
 		                </a>
 					</div>
 					<mat-form-field class="todo-form" *ngIf="todo.editing">
-						<input class="todo-editing" matInput [(ngModel)]="todo.description" (blur)="saveTodo(todo)" (keyup.enter)="saveTodo(todo)">
+						<input id="editedTodo" class="todo-editing" matInput [(ngModel)]="todo.description" (blur)="saveTodo(todo)" (keyup.enter)="saveTodo(todo)">
 					</mat-form-field>
 				</li>
 			</ul>
 	  	</mat-card-content>
+	  	<mat-card-actions>
+		    <button mat-button color="primary">ARCHIVE</button>
+		    <button mat-button>DELETE</button>
+		  </mat-card-actions>
 	  </mat-card>
 	  </mat-grid-tile>
 	</mat-grid-list>

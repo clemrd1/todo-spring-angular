@@ -1,10 +1,36 @@
 mat-card {
   width: calc(100% - 70px);
   height: calc(100% - 70px);
+  padding: 0;
+}
+
+mat-card mat-card-header {
+	padding:24px;
+}
+
+mat-card mat-card-header mat-card-title{
+	color: white;
+	width:100%;
+	font-size: 20px;
+	margin:0;
+}
+
+mat-card mat-card-content{
+	padding: 10px 24px 10px 24px;
+	height:240px;
+}
+
+mat-card mat-card-actions{
+	padding: 10px 24px 10px 24px;
 }
 
 li{
 	list-style:none;	
+}
+
+.todos {
+	height: 200px;
+	overflow: auto;
 }
 
 .todo{
@@ -29,6 +55,10 @@ li{
 	-webkit-margin-before: 0px;
 	
     list-style-type: none;
+}
+
+.todo-list mat-card-header {
+	background-color: #3f51b5;
 }
 
 .todo-list li.editing .todo {

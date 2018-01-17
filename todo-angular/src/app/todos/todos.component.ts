@@ -2,7 +2,7 @@ import {TodoService} from '../todo.service';
 import {TodoList} from '../todolist';
 import {Todo} from '../todo';
 import {UserService} from '../user.service';
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, Renderer2, AfterViewInit, AfterContentChecked} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Location} from '@angular/common';
 
@@ -11,7 +11,7 @@ import {Location} from '@angular/common';
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css']
 })
-export class TodosComponent implements OnInit {
+export class TodosComponent implements OnInit, AfterContentChecked {
 
   @Input() todoLists: TodoList[];
 
@@ -24,11 +24,24 @@ export class TodosComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private todoService: TodoService,
-    private location: Location
+    private location: Location,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
     this.getTodos();
+  }
+
+  ngAfterContentChecked(): void {
+    this.setFocus();
+  }
+
+  setFocus() {
+    // TODO: check for better solution
+    try {
+      this.renderer.selectRootElement('#editedTodo').focus();
+    } catch (e) {
+    }
   }
 
   getTodos() {
