@@ -19,7 +19,11 @@ export class TodosComponent implements OnInit, AfterContentChecked {
 
   @Input() refreshTl: TodoList = new TodoList();
 
+  @Input() newTl: TodoList = new TodoList();
+
   newTodoDesc = '';
+
+  newTodoListName = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -91,6 +95,29 @@ export class TodosComponent implements OnInit, AfterContentChecked {
     );
   }
 
+  createNewTl() {
+    this.todoLists.unshift(new TodoList());
+  }
+
+  addTodoList() {
+    const login = this.route.snapshot.paramMap.get('login');
+    if (this.newTodoListName.trim().length) {
+      this.newTl.name = this.newTodoListName;
+      this.todoService.addTodoList(this.newTl, login).subscribe(
+        newTl => this.newTl = newTl, () => console.log('Error'), () => this.getTodos()
+      );
+    }
+  }
+
+  editTodoList(tl: TodoList) {
+    tl.editing = true;
+  }
+
+  deleteTodoList(delTl: TodoList) {
+    this.todoService.deleteTodoList(delTl).subscribe();
+    this.todoLists = this.todoLists.filter(tl => delTl.listId !== tl.listId);
+  }
+
   refreshTodoList(tl: TodoList) {
     this.todoService.getTodoList(tl.listId).subscribe(
       tlUp => {
@@ -99,7 +126,6 @@ export class TodosComponent implements OnInit, AfterContentChecked {
         Object.assign(existingTl, tlUp);
       }
     );
-
   }
 
 }

@@ -36,6 +36,20 @@ export class TodoService {
     );
   }
 
+  addTodoList(tl: TodoList, login: string): Observable<TodoList> {
+    return this.http.post(`${this.baseUrl}/todos/${login}`, tl, httpOptions).pipe(
+      tap(_ => this.log(`added todoList id=${tl.listId}`)),
+      catchError(this.handleError<any>('updateTodoList'))
+    );
+  }
+
+  deleteTodoList(tl: TodoList): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/todos/${tl.listId}`, httpOptions).pipe(
+      tap(_ => this.log(`deleted todoList id=${tl.listId}`)),
+      catchError(this.handleError<any>('deleteTodoList'))
+    );
+  }
+
   updateTodo(todo: Todo): Observable<any> {
     return this.http.put(`${this.baseUrl}/todo/${todo.todoId}`, todo, httpOptions).pipe(
       tap(_ => this.log(`updated todo id=${todo.todoId}`)),
@@ -44,7 +58,7 @@ export class TodoService {
   }
 
   addTodo(todo: Todo, listId: number): Observable<Todo> {
-    return this.http.post(`${this.baseUrl}/todos/${listId}`, todo, httpOptions).pipe(
+    return this.http.post(`${this.baseUrl}/todo/${listId}`, todo, httpOptions).pipe(
       tap(_ => this.log(`added todo id=${todo.todoId}`)),
       catchError(this.handleError<any>('updateTodo'))
     );

@@ -3,7 +3,6 @@
  */
 package com.todo.service;
 
-import java.util.Optional;
 import java.util.Set;
 
 import com.todo.bean.TodoList;
@@ -22,4 +21,8 @@ public interface TodoListService {
 	TodoList findTodoList(Integer id);
 	
 	TodoList updateTodoList(TodoList tl);
+	
+	void deleteTodoList(Integer id);
+	
+	
 }

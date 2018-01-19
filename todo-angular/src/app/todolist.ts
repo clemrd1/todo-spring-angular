@@ -1,4 +1,4 @@
-import { Todo } from './todo';
+import {Todo} from './todo';
 
 export class TodoList {
   listId: number;
@@ -6,4 +6,5 @@ export class TodoList {
   archived: boolean;
   archivedDate: Date;
   todos: Array<Todo>;
+  editing = false;
 }

@@ -66,4 +66,20 @@ public class TodoListServiceImpl implements TodoListService{
 	public TodoList updateTodoList(TodoList tl) {
 		return todoListRepository.save(tl);
 	}
+
+	/* (non-Javadoc)
+	 * @see com.todo.service.TodoListService#deleteTodoList(java.lang.Integer)
+	 */
+	@Override
+	public void deleteTodoList(Integer id) {
+		TodoList tl = todoListRepository.findOne(id);
+		if(tl!=null) {
+			Set<User> users = tl.getUsers();
+			for(User user : users) {
+				user.getTodoLists().remove(tl);
+				userService.updateUser(user);
+			}
+			todoListRepository.delete(tl);
+		}
+	}
 }

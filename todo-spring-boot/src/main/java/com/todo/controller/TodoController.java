@@ -69,6 +69,52 @@ public class TodoController {
 		return new ResponseEntity<User>(userToUp, HttpStatus.OK);
 	}
 	
+	
+	@GetMapping(path="/{login}/todos")
+	public @ResponseBody Set<TodoList> getTodoListByUsers(@PathVariable("login") String login) {
+		return todoListService.findActivedTodoListByUsers(login);
+	}
+	
+	@GetMapping(path="/{login}/todos/archived")
+	public @ResponseBody Set<TodoList> getArvhivedTodoListByUsers(@PathVariable("login") String login) {
+		return todoListService.findArchivedTodoListByUsers(login);
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/todos/{listId}")
+	public TodoList getTodoList(@PathVariable("listId") Integer listId) {
+		return todoListService.findTodoList(listId);
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, value = "/todos/{listId}")
+	public boolean deleteTodoList(@PathVariable("listId") Integer listId) {
+		todoListService.deleteTodoList(listId);
+		return true;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/todos/{login}")
+	public ResponseEntity<?> addTodoList(@PathVariable("login") String login, @RequestBody TodoList tl){
+		userService.validateUser(login);
+		User u = userService.findUserByLogin(login);
+		TodoList newTl = new TodoList();
+		newTl.setName(tl.getName());
+		newTl.getUsers().add(u);
+		newTl = todoListService.updateTodoList(newTl);
+		u.getTodoLists().add(newTl);
+		userService.updateUser(u);
+		return new ResponseEntity<TodoList>(newTl, HttpStatus.OK);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/todo/{listId}")
+	public ResponseEntity<?> addTodo(@PathVariable("listId") Integer listId, @RequestBody Todo todo) {
+		System.out.println("addTodo");
+		TodoList tl = todoListService.findTodoList(listId);
+		Todo newTodo = new Todo();
+		newTodo.setDescription(todo.getDescription());
+		newTodo.setTodoList(tl);
+		newTodo = todoService.updateTodo(newTodo);
+		return new ResponseEntity<Todo>(newTodo, HttpStatus.OK);
+	}
+	
 	@RequestMapping(method = RequestMethod.PUT, value = "/todo/{id}")
 	public ResponseEntity<?> updateTodo(@PathVariable("id") Integer id, @Valid @RequestBody Todo todo){
 		Todo todoToUp = todoService.findTodo(id);
@@ -79,40 +125,14 @@ public class TodoController {
 		}else if(todo.isCompleted() && !todoToUp.isCompleted()) {
 			todoToUp.setCompletedDate(new Date());
 		}
-		todoService.saveTodo(todoToUp);
+		todoService.updateTodo(todoToUp);
 		return new ResponseEntity<Todo>(todoToUp, HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/todos/{listId}")
-	public TodoList getTodoList(@PathVariable("listId") Integer listId) {
-		return todoListService.findTodoList(listId);
-	}
-	
-	@RequestMapping(method = RequestMethod.POST, value = "/todos/{listId}")
-	ResponseEntity<?> addTodo(@PathVariable("listId") Integer listId, @RequestBody Todo todo) {
-		System.out.println("addTodo");
-		TodoList tl = todoListService.findTodoList(listId);
-		Todo newTodo = new Todo();
-		newTodo.setDescription(todo.getDescription());
-		newTodo.setTodoList(tl);
-		todoService.saveTodo(newTodo);
-		return new ResponseEntity<Todo>(newTodo, HttpStatus.OK);
-	}
-	
 	@RequestMapping(method = RequestMethod.DELETE, value = "/todo/{id}")
-	boolean delete(@PathVariable("id") Integer id) {
+	public boolean delete(@PathVariable("id") Integer id) {
 		todoService.deleteTodo(id);
 		return true;
 	}
 	
-	
-	@GetMapping(path="/{login}/todos")
-	public @ResponseBody Set<TodoList> getTodoListByUsers(@PathVariable("login") String login) {
-		return todoListService.findActivedTodoListByUsers(login);
-	}
-	
-	@GetMapping(path="/{login}/archivedTodos")
-	public @ResponseBody Set<TodoList> getArvhivedTodoListByUsers(@PathVariable("login") String login) {
-		return todoListService.findArchivedTodoListByUsers(login);
-	}
 }

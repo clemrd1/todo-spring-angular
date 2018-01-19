@@ -1,19 +1,27 @@
 <div class="todo-app">
+	<div class="todos-action">
+		<button mat-raised-button color="primary" (click)="addTodoList()">Add list</button>
+	</div>
 	<mat-grid-list cols="3" rowHeight="470px">
 	  <mat-grid-tile *ngFor="let todoList of todoLists">
 	  <mat-card class="todo-list">
 	  	<mat-card-header>
-		    <mat-card-title>{{todoList.name}}</mat-card-title>
+		    <mat-card-title>
+		    	<label *ngIf="!todoList.editing" class="todo-list-title" (click)="editTodoList(todoList)" [class.editing]="todoList.editing" [class.not-editing]="!todoList.editing">{{todoList.name}}</label>
+		    	<mat-form-field *ngIf="todoList.editing">
+		    		<input matInput class="todo-list-editing" [(ngModel)]="todoList.name">
+		    	</mat-form-field>
+		    </mat-card-title>
 	  	</mat-card-header>
 	  	<mat-card-content>
 	  		<mat-form-field>
 				<input matInput placeholder="Add todo" [(ngModel)]="newTodoDesc" (blur)="addTodo(todoList)" (keyup.enter)="addTodo(todoList)">
 			</mat-form-field>
 	    	<ul class="todos">
-				<li *ngFor="let todo of todoList.todos" [class.editing]="todo.editing" [class.not-editing]="!todo.editing">
+				<li *ngFor="let todo of todoList.todos" [class.editing]="todo.editing">
 					<div class="todo">
 						<mat-checkbox [(ngModel)]="todo.completed" (change)="setCompleted(todo, todoList)" color="primary"></mat-checkbox>
-						<label *ngIf="!todo.editing" (click)="editTodo(todo); setFocus()" [class.completed]="todo.completed">{{todo.description}}</label>
+						<label *ngIf="!todo.editing" (click)="editTodo(todo)" [class.completed]="todo.completed">{{todo.description}}</label>
 						<a>
 		                	<i class="material-icons delete" (click)="deleteTodo(todo, todoList)">clear</i>
 		                </a>
@@ -26,7 +34,7 @@
 	  	</mat-card-content>
 	  	<mat-card-actions>
 		    <button mat-button color="primary">ARCHIVE</button>
-		    <button mat-button>DELETE</button>
+		    <button mat-button (click)="deleteTodoList(todoList)" color="primary">DELETE</button>
 		  </mat-card-actions>
 	  </mat-card>
 	  </mat-grid-tile>
